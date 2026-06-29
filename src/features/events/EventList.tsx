@@ -19,7 +19,7 @@ export function EventList({ city }: EventListProps) {
   }
 
   if (loading) {
-    return <p>Loading events for {city}...</p>; // A simple loading text (skeleton works too!)
+    return <p>Loading events for {city}...</p>;
   }
 
   if (error) {
@@ -44,14 +44,14 @@ export function EventList({ city }: EventListProps) {
 
   return (
     <>
-      {/* If an event is selected, show the form above the list */}
+   
       {selectedEventId && (
         <div style={{ marginBottom: "32px" }}>
           <BookingForm 
             eventId={selectedEventId}
             onSubmit={async (bookingData) => {
               await CreateBooking({ eventId: selectedEventId, ...bookingData });
-              setSelectedEventId(null); // Close the form on success
+              setSelectedEventId(null); 
             }}
           />
           <button 
