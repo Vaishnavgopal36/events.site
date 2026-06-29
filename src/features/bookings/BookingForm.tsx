@@ -69,7 +69,7 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
           <input
             type="text"
             {...register("name")} // This replaces value={} and onChange={}!
-            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/30"
+            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:-translate-y-0.5 focus:border-purple-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/30"
           />
           {errors.name && (
             <span className="mt-2 block text-xs font-bold text-rose-500">
@@ -85,7 +85,7 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
             type="email"
             aria-invalid={!!errors.email}
             {...register("email")}
-            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/30"
+            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:-translate-y-0.5 focus:border-purple-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/30"
           />
           {errors.email && (
             <span className="mt-2 block text-xs font-bold text-rose-500">
@@ -100,7 +100,7 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
           <input
             type="number"
             {...register("seats")}
-            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/30"
+            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:-translate-y-0.5 focus:border-purple-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-purple-500/30"
           />
           {errors.seats && (
             <span className="mt-2 block text-xs font-bold text-rose-500">
@@ -113,7 +113,7 @@ export function BookingForm({ onSubmit }: BookingFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full cursor-pointer rounded-2xl bg-gradient-to-r from-fuchsia-500 to-purple-600 px-5 py-3 font-black text-white shadow-lg shadow-purple-900/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-900/30 focus:outline-none focus:ring-4 focus:ring-purple-500/30 disabled:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-400 disabled:shadow-none"
+        className="w-full cursor-pointer rounded-2xl bg-gradient-to-r from-fuchsia-500 to-purple-600 px-5 py-3 font-black text-white shadow-lg shadow-purple-900/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-900/30 focus:outline-none focus:ring-4 focus:ring-purple-500/30 active:scale-95 disabled:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-400 disabled:shadow-none"
       >
         {isSubmitting ? "Booking..." : "Confirm Booking"}
       </button>

@@ -76,13 +76,13 @@ export function EventList({ city }: EventListProps) {
 
       {/* 2. The Modal Overlay (Only renders if an event is selected) */}
       {selectedEventId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex animate-in fade-in items-center justify-center bg-slate-900/40 p-4 opacity-100 backdrop-blur-md transition-opacity duration-200 ease-out starting:opacity-0">
           {/* Modal Container */}
-          <div className="relative w-full max-w-md rounded-3xl border border-white bg-white p-7 shadow-2xl shadow-slate-950/30 sm:p-8">
+          <div className="relative w-full max-w-md animate-in fade-in zoom-in-95 scale-100 rounded-3xl border border-white bg-white p-7 opacity-100 shadow-2xl shadow-slate-950/30 transition-all duration-300 ease-out starting:scale-95 starting:opacity-0 sm:p-8">
             {/* Close Button (X icon) */}
             <button
               onClick={() => setSelectedEventId(null)}
-              className="absolute right-4 top-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-all duration-200 hover:bg-rose-100 hover:text-rose-600 focus:outline-none focus:ring-4 focus:ring-rose-500/20"
+              className="absolute right-4 top-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-all duration-200 hover:bg-rose-100 hover:text-rose-600 focus:outline-none focus:ring-4 focus:ring-rose-500/20 active:scale-95"
               aria-label="Close modal"
             >
               <svg
