@@ -46,62 +46,64 @@ export function BookingForm({ eventId, onSubmit }: BookingFormProps) {
     <form
       onSubmit={handleSubmit(processSubmit)}
       noValidate
-      className="border-2 border-teal-600 bg-teal-50 p-5 rounded-lg mt-4"
+      className="mt-5 rounded-3xl border-2 border-purple-100 bg-gradient-to-br from-slate-50 to-fuchsia-50/70 p-5 shadow-inner"
     >
-      <h4 className="mt-0 text-teal-800 font-bold mb-4">Book Tickets</h4>
+      <h4 className="mb-4 mt-0 text-lg font-black text-purple-900">
+        Book Tickets
+      </h4>
 
       {/* Root/API Errors */}
       {errors.root && (
         <div
           role="alert"
-          className="bg-red-400 text-white p-2 mb-4 rounded text-sm"
+          className="mb-4 rounded-2xl border border-rose-200 bg-rose-500 p-3 text-sm font-bold text-white shadow-lg shadow-rose-900/15"
         >
           {errors.root.message}
         </div>
       )}
 
-      <div className="flex flex-col gap-3 mb-4">
+      <div className="mb-5 flex flex-col gap-4">
         {/* Name Field */}
-        <label className="text-sm font-medium text-slate-700">
-          Name:
+        <label className="text-sm font-bold text-slate-700">
+          Name
           <input
             type="text"
             {...register("name")} // This replaces value={} and onChange={}!
-            className="w-full p-2 mt-1 border border-slate-300 rounded bg-white"
+            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/30"
           />
           {errors.name && (
-            <span className="text-red-500 text-xs mt-1 block">
+            <span className="mt-2 block text-xs font-bold text-rose-500">
               {errors.name.message}
             </span>
           )}
         </label>
 
         {/* Email Field */}
-        <label className="text-sm font-medium text-slate-700">
-          Email:
+        <label className="text-sm font-bold text-slate-700">
+          Email
           <input
             type="email"
             aria-invalid={!!errors.email}
             {...register("email")}
-            className="w-full p-2 mt-1 border border-slate-300 rounded bg-white"
+            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/30"
           />
           {errors.email && (
-            <span className="text-red-500 text-xs mt-1 block">
+            <span className="mt-2 block text-xs font-bold text-rose-500">
               {errors.email.message}
             </span>
           )}
         </label>
 
         {/* Seats Field */}
-        <label className="text-sm font-medium text-slate-700">
-          Seats (1-10):
+        <label className="text-sm font-bold text-slate-700">
+          Seats (1-10)
           <input
             type="number"
             {...register("seats")}
-            className="w-full p-2 mt-1 border border-slate-300 rounded bg-white"
+            className="mt-2 w-full rounded-2xl border-2 border-slate-200 bg-slate-50 px-4 py-3 text-base font-semibold text-slate-900 outline-none transition-all duration-200 placeholder:text-slate-400 hover:border-purple-300 focus:border-purple-500 focus:bg-white focus:ring-4 focus:ring-purple-500/30"
           />
           {errors.seats && (
-            <span className="text-red-500 text-xs mt-1 block">
+            <span className="mt-2 block text-xs font-bold text-rose-500">
               {errors.seats.message}
             </span>
           )}
@@ -111,7 +113,7 @@ export function BookingForm({ eventId, onSubmit }: BookingFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="px-5 py-2 bg-teal-600 text-white border-none rounded cursor-pointer disabled:bg-slate-400 disabled:cursor-not-allowed hover:bg-teal-700 transition-colors"
+        className="w-full cursor-pointer rounded-2xl bg-gradient-to-r from-fuchsia-500 to-purple-600 px-5 py-3 font-black text-white shadow-lg shadow-purple-900/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-900/30 focus:outline-none focus:ring-4 focus:ring-purple-500/30 disabled:translate-y-0 disabled:cursor-not-allowed disabled:from-slate-300 disabled:to-slate-400 disabled:shadow-none"
       >
         {isSubmitting ? "Booking..." : "Confirm Booking"}
       </button>

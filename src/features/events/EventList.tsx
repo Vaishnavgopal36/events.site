@@ -20,16 +20,22 @@ export function EventList({ city }: EventListProps) {
   // State 1: Idle
   if (!city) {
     return (
-      <p className="text-slate-500">Select a city to view upcoming events.</p>
+      <div className="rounded-3xl border border-dashed border-purple-200 bg-white/70 p-8 text-center shadow-lg shadow-purple-900/10 backdrop-blur">
+        <p className="text-lg font-semibold text-slate-600">
+          Select a city to view upcoming events.
+        </p>
+      </div>
     );
   }
 
   // State 2: Loading
   if (loading) {
     return (
-      <p className="text-slate-500 animate-pulse">
-        Loading events for {city}...
-      </p>
+      <div className="rounded-3xl border border-cyan-100 bg-white/75 p-8 shadow-lg shadow-cyan-900/10 backdrop-blur">
+        <p className="animate-pulse text-lg font-semibold text-cyan-700">
+          Loading events for {city}...
+        </p>
+      </div>
     );
   }
 
@@ -38,7 +44,7 @@ export function EventList({ city }: EventListProps) {
     return (
       <div
         role="alert"
-        className="text-red-700 bg-red-50 p-4 rounded-lg border border-red-200"
+        className="rounded-2xl border-2 border-rose-200 bg-rose-50/90 p-5 text-rose-700 shadow-lg shadow-rose-900/10"
       >
         <strong>Error:</strong> {error.message}
       </div>
@@ -48,9 +54,11 @@ export function EventList({ city }: EventListProps) {
   // State 4a: Success but empty
   if (events.length === 0) {
     return (
-      <p className="text-slate-500">
-        No events found for {city}. Try another location!
-      </p>
+      <div className="rounded-3xl border border-dashed border-fuchsia-200 bg-white/70 p-8 text-center shadow-lg shadow-fuchsia-900/10 backdrop-blur">
+        <p className="text-lg font-semibold text-slate-600">
+          No events found for {city}. Try another location!
+        </p>
+      </div>
     );
   }
 
@@ -58,7 +66,7 @@ export function EventList({ city }: EventListProps) {
   return (
     <>
       {/* 1. The Main Event List */}
-      <ul className="list-none p-0 m-0 space-y-4">
+      <ul className="m-0 grid list-none gap-5 p-0 md:grid-cols-2">
         {events.map((event) => (
           <li key={event.id}>
             <EventCard event={event} onBook={handleBook} />
@@ -68,13 +76,13 @@ export function EventList({ city }: EventListProps) {
 
       {/* 2. The Modal Overlay (Only renders if an event is selected) */}
       {selectedEventId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-md">
           {/* Modal Container */}
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 relative">
+          <div className="relative w-full max-w-md rounded-3xl border border-white bg-white p-7 shadow-2xl shadow-slate-950/30 sm:p-8">
             {/* Close Button (X icon) */}
             <button
               onClick={() => setSelectedEventId(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-800 transition-colors cursor-pointer"
+              className="absolute right-4 top-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-all duration-200 hover:bg-rose-100 hover:text-rose-600 focus:outline-none focus:ring-4 focus:ring-rose-500/20"
               aria-label="Close modal"
             >
               <svg
@@ -94,10 +102,10 @@ export function EventList({ city }: EventListProps) {
             </button>
 
             {/* Modal Header */}
-            <h3 className="text-xl font-bold text-slate-800 mb-1">
+            <h3 className="mb-1 pr-10 text-2xl font-black text-slate-950">
               Complete Booking
             </h3>
-            <p className="text-sm text-slate-500 mb-4">
+            <p className="mb-5 pr-8 text-sm font-medium text-slate-500">
               Secure your tickets before they sell out.
             </p>
 
@@ -106,23 +114,23 @@ export function EventList({ city }: EventListProps) {
               eventId={selectedEventId}
               onSubmit={async (bookingData) => {
                 // 1. Capture the returned data from our mock backend
-                const newBooking = await CreateBooking({ 
-                  eventId: selectedEventId, 
-                  ...bookingData 
+                const newBooking = await CreateBooking({
+                  eventId: selectedEventId,
+                  ...bookingData,
                 });
 
                 // 2. Update our local state array immutably
                 setBookings((prevBookings) => {
                   const updatedList = [...prevBookings, newBooking];
-                  
+
                   // 3. Print the full list to the console!
                   console.log(" Current Bookings:", updatedList);
-                  
+
                   return updatedList;
                 });
 
                 // 4. Close the modal
-                setSelectedEventId(null); 
+                setSelectedEventId(null);
               }}
             />
           </div>
