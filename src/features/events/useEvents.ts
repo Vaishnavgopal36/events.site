@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ListEvents, type Event } from "../../api/events";
+import { ListEvents } from "../../api/events";
 export function useEvents(city: string) {
   const query = useQuery({
     queryKey: ["events", city],

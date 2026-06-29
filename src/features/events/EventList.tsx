@@ -12,7 +12,7 @@ type EventListProps = {
 export function EventList({ city }: EventListProps) {
   const { events, loading, error } = useEvents(city);
   const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
-  const [bookings, setBookings] = useState<any[]>([]);
+  const [, setBookings] = useState<any[]>([]);
   const handleBook = useCallback((eventId: number) => {
     setSelectedEventId(eventId);
   }, []);

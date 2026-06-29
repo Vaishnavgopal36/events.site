@@ -13,7 +13,7 @@ type BookingPayload = {
   seats: number;
 };
 export const ListEvents = async (city: string): Promise<Event[]> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
         {
@@ -60,7 +60,7 @@ export const ListEvents = async (city: string): Promise<Event[]> => {
     }, 400);
   });
 };
-export const CreateBooking = async (data: BookingPayload): Promise<Event[]> => {
+export const CreateBooking = async (data: BookingPayload) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (data.seats > 10) {
