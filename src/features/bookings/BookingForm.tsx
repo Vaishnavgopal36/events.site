@@ -1,150 +1,119 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
+const bookingSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  seats: z.coerce
+    .number()
+    .min(1, "At least one seat must be booked")
+    .max(10, "You can book a maximum of 10 seats"),
+});
+
+type BookingFormData = z.infer<typeof bookingSchema>;
 type BookingFormProps = {
   eventId: number;
-  onSubmit: (booking: {
-    name: string;
-    email: string;
-    seats: number;
-  }) => Promise<void>;
+  onSubmit: (booking: BookingFormData) => Promise<void>;
 };
-
 export function BookingForm({ eventId, onSubmit }: BookingFormProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [seats, setSeats] = useState<number | "">(1);
-
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const canSubmit =
-    name.trim().length > 0 &&
-    isEmailValid &&
-    typeof seats === "number" &&
-    seats >= 1 &&
-    seats <= 10 &&
-    !submitting;
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError(null);
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<BookingFormData>({
+    resolver: zodResolver(bookingSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      seats: 1,
+    },
+  });
+  const processSubmit = async (data: BookingFormData) => {
     try {
-      await onSubmit({ name, email, seats: seats as number });
-      setName("");
-      setEmail("");
-      setSeats(1);
-      alert("Booking successful!");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Booking failed");
-    } finally {
-      setSubmitting(false);
+      await onSubmit(data);
+      reset();
+    } catch (error: any) {
+      setError("root", {
+        type: "manual",
+        message: error.message || "An error occurred",
+      });
     }
   };
-
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(processSubmit)}
       noValidate
-      style={{
-        border: "2px solid #1E8F8E",
-        padding: "20px",
-        borderRadius: "8px",
-        marginTop: "16px",
-        background: "#E3F7F6",
-      }}
+      className="border-2 border-teal-600 bg-teal-50 p-5 rounded-lg mt-4"
     >
-      <h4 style={{ marginTop: 0, color: "#135858" }}>Book Tickets</h4>
+      <h4 className="mt-0 text-teal-800 font-bold mb-4">Book Tickets</h4>
 
-      {error && (
+      {/* Root/API Errors */}
+      {errors.root && (
         <div
           role="alert"
-          style={{
-            color: "white",
-            background: "#F47E7E",
-            padding: "8px",
-            marginBottom: "16px",
-            borderRadius: "4px",
-          }}
+          className="bg-red-400 text-white p-2 mb-4 rounded text-sm"
         >
-          {error}
+          {errors.root.message}
         </div>
       )}
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-          marginBottom: "16px",
-        }}
-      >
-        <label>
+      <div className="flex flex-col gap-3 mb-4">
+        {/* Name Field */}
+        <label className="text-sm font-medium text-slate-700">
           Name:
           <input
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "8px",
-              marginTop: "4px",
-              boxSizing: "border-box",
-            }}
+            {...register("name")} // This replaces value={} and onChange={}!
+            className="w-full p-2 mt-1 border border-slate-300 rounded bg-white"
           />
+          {errors.name && (
+            <span className="text-red-500 text-xs mt-1 block">
+              {errors.name.message}
+            </span>
+          )}
         </label>
 
-        <label>
+        {/* Email Field */}
+        <label className="text-sm font-medium text-slate-700">
           Email:
           <input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-invalid={email !== "" && !isEmailValid}
-            style={{
-              width: "100%",
-              padding: "8px",
-              marginTop: "4px",
-              boxSizing: "border-box",
-            }}
+            aria-invalid={!!errors.email}
+            {...register("email")}
+            className="w-full p-2 mt-1 border border-slate-300 rounded bg-white"
           />
+          {errors.email && (
+            <span className="text-red-500 text-xs mt-1 block">
+              {errors.email.message}
+            </span>
+          )}
         </label>
 
-        <label>
+        {/* Seats Field */}
+        <label className="text-sm font-medium text-slate-700">
           Seats (1-10):
           <input
             type="number"
-            min="1"
-            max="10"
-            value={seats}
-            onChange={(e) =>
-              setSeats(e.target.value === "" ? "" : parseInt(e.target.value))
-            }
-            style={{
-              width: "100%",
-              padding: "8px",
-              marginTop: "4px",
-              boxSizing: "border-box",
-            }}
+            {...register("seats")}
+            className="w-full p-2 mt-1 border border-slate-300 rounded bg-white"
           />
+          {errors.seats && (
+            <span className="text-red-500 text-xs mt-1 block">
+              {errors.seats.message}
+            </span>
+          )}
         </label>
       </div>
 
       <button
         type="submit"
-        disabled={!canSubmit}
-        style={{
-          padding: "10px 20px",
-          background: canSubmit ? "#17A4A3" : "#7E8A9A",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: canSubmit ? "pointer" : "not-allowed",
-        }}
+        disabled={isSubmitting}
+        className="px-5 py-2 bg-teal-600 text-white border-none rounded cursor-pointer disabled:bg-slate-400 disabled:cursor-not-allowed hover:bg-teal-700 transition-colors"
       >
-        {submitting ? "Booking..." : "Confirm Booking"}
+        {isSubmitting ? "Booking..." : "Confirm Booking"}
       </button>
     </form>
   );
